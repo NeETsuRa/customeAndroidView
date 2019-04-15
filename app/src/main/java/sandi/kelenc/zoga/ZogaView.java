@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 public class ZogaView extends View {
+	// set all the initial variables
 	private int xMin = 0, xMax, yMin = 0, yMax;
 	private float polmer = 50, xZoge = polmer + 25;
 	private float yZoge = polmer + 40;
@@ -22,7 +23,8 @@ public class ZogaView extends View {
 	
 	private StringBuilder status = new StringBuilder();
 	private Formatter formatter = new Formatter(status);
-	
+
+	// construktor
 	ZogaView(Context context){
 		super(context);
 		zogaMeje = new RectF();
@@ -32,7 +34,8 @@ public class ZogaView extends View {
 		
 		this.setFocusableInTouchMode(true);
 	}
-	
+
+	//change speed in case of touch move
 	@Override
 	public boolean onTouchEvent(MotionEvent event){
 		float x = event.getX(), y = event.getY();
@@ -51,14 +54,15 @@ public class ZogaView extends View {
 		oldY = y;
 		return true;
 	}
-	
+
+	// drawing the ball
 	@Override
 	protected void onDraw(Canvas canvas){
-		//izris zoge
+		//draw ball
 		zogaMeje.set(xZoge-polmer, yZoge-polmer, xZoge+polmer, yZoge+polmer);
 		paint.setColor(Color.BLUE);
 		canvas.drawOval(zogaMeje, paint);
-		
+		//draw status text
 		paint.setColor(Color.YELLOW);
 		canvas.drawText(status.toString(), 10, 30, paint);
 		
@@ -71,7 +75,8 @@ public class ZogaView extends View {
 		
 		invalidate();
 	}
-	
+
+	// move the ball and update the status text
 	private void update(){
 		xZoge += hitrostX;
 		yZoge += hitrostY;
@@ -92,7 +97,7 @@ public class ZogaView extends View {
 			yZoge = yMin + polmer;
 		}
 		
-		//spremeni tekst
+		//update the status text
 		status.delete(0, status.length());
 		formatter.format("Zoga na (%3.0f, %3.0f), hitrost (%2.0f, %2.0f)",
 				xZoge, yZoge, hitrostX, hitrostY);
